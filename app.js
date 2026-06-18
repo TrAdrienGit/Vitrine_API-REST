@@ -83,6 +83,47 @@ app.get("/members/:id", async (req, res) => {
     }
 });
 
+// AJOUT d'un membre
+app.post("/members", async (req, res) => {
+    try {
+        const newMember = new Member({
+            id: req.body.id,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            slug: req.body.slug,
+            job: req.body.job,
+            avatar: req.body.avatar,
+            presentation: req.body.presentation,
+            location: req.body.location,
+            contact: req.body.contact,
+            skills: req.body.skills,
+            projects: req.body.projects,
+            supplementary_link: req.body.supplementary_link
+        });
+
+        const savedMember = await newMember.save();
+
+        res.status(201).json(savedMember);
+    }
+    catch (error) {
+        res.status(500).json({
+            message: "Erreur lors de la création du member",
+            error: error.message
+        });
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // PROJETCS
@@ -120,6 +161,43 @@ app.get("/projects/:id", async (req, res) => {
         });
     }
 });
+
+// AJOUT d'un projet
+app.post("/projects", async (req, res) => {
+    try {
+        const newProject = new Project({
+            id: req.body.id,
+            title: req.body.title,
+            description: req.body.description,
+            cover: req.body.cover,
+            stack: req.body.stack,
+            ownerId: req.body.ownerId,
+            supplementary_link: req.body.supplementary_link,
+            blocks: req.body.blocks
+        });
+
+        const savedProject = await newProject.save();
+
+        res.status(201).json(savedProject);
+    }
+    catch (error) {
+        res.status(500).json({
+            message: "Erreur lors de la création du project",
+            error: error.message
+        });
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
 
 
 
