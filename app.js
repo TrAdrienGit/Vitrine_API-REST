@@ -139,7 +139,45 @@ app.delete("/members/:id", async (req, res) => {
     }
 });
 
+// UPDATE d'un membre par ID
+app.put("/members/:id", async (req, res) => {
+    try {
+        const updatedMember = await Member.findOneAndUpdate(
+            { id: req.params.id },
+            {
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                slug: req.body.slug,
+                job: req.body.job,
+                avatar: req.body.avatar,
+                presentation: req.body.presentation,
+                location: req.body.location,
+                contact: req.body.contact,
+                skills: req.body.skills,
+                projects: req.body.projects,
+                supplementary_link: req.body.supplementary_link
+            },
+            {
+                new: true,
+                runValidators: true
+            }
+        );
 
+        if (!updatedMember) {
+            return res.status(404).json({
+                message: `Membre introuvable: ${req.params.id}`
+            });
+        }
+
+        res.status(200).json(updatedMember);
+    }
+    catch (error) {
+        res.status(500).json({
+            message: `Erreur lors de la mise à jour du membre: ${req.params.id}`,
+            error: error.message
+        });
+    }
+});
 
 
 
@@ -238,7 +276,41 @@ app.delete("/projects/:id", async (req, res) => {
     }
 });
 
+// UPDATE d'un projet par ID
+app.put("/projects/:id", async (req, res) => {
+    try {
+        const updatedProject = await Project.findOneAndUpdate(
+            { id: req.params.id },
+            {
+                title: req.body.title,
+                description: req.body.description,
+                cover: req.body.cover,
+                stack: req.body.stack,
+                ownerId: req.body.ownerId,
+                supplementary_link: req.body.supplementary_link,
+                blocks: req.body.blocks
+            },
+            {
+                new: true,
+                runValidators: true
+            }
+        );
 
+        if (!updatedProject) {
+            return res.status(404).json({
+                message: `Projet introuvable: ${req.params.id}`
+            });
+        }
+
+        res.status(200).json(updatedProject);
+    }
+    catch (error) {
+        res.status(500).json({
+            message: `Erreur lors de la mise à jour du projet: ${req.params.id}`,
+            error: error.message
+        });
+    }
+});
 
 
 
