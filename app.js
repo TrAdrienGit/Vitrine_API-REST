@@ -62,7 +62,26 @@ app.get("/members", async (req, res) => {
     }
 });
 
+// GET un membre par ID
+app.get("/members/:id", async (req, res) => {
+    try {
+        const member = await Member.findOne({id: req.params.id});
 
+        if (!member) {
+            return res.status(404).json({
+                message: `Membre introuvable: ${req.params.id}`
+            });
+        }
+
+        res.status(200).json(member);
+    }
+    catch (error) {
+        res.status(500).json({
+            message: `Erreur serveur lors de la récupération du membre: ${req.params.id}`,
+            error: error.message
+        });
+    }
+});
 
 
 
@@ -81,7 +100,26 @@ app.get("/projects", async (req, res) => {
     }
 });
 
+// GET un projet par ID
+app.get("/projects/:id", async (req, res) => {
+    try {
+        const project = await Project.findOne({id: req.params.id});
 
+        if (!project) {
+            return res.status(404).json({
+                message: `Projet introuvable: ${req.params.id}`
+            });
+        }
+
+        res.status(200).json(project);
+    }
+    catch (error) {
+        res.status(500).json({
+            message: `Erreur serveur lors de la récupération du projet: ${req.params.id}`,
+            error: error.message
+        });
+    }
+});
 
 
 
