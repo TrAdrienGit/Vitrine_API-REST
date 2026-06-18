@@ -113,7 +113,31 @@ app.post("/members", async (req, res) => {
     }
 });
 
+// DELETE d'un membre par ID
+app.delete("/members/:id", async (req, res) => {
+    try {
+        const deletedMember = await Member.findOneAndDelete({
+            id: req.params.id
+        });
 
+        if (!deletedMember) {
+            return res.status(404).json({
+                message: `Membre introuvable: ${req.params.id}`
+            });
+        }
+
+        res.status(200).json({
+            message: "Membre supprimé avec succès",
+            member: deletedMember
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            message: `Erreur lors de la suppression du membre: ${req.params.id}`,
+            error: error.message
+        });
+    }
+});
 
 
 
@@ -188,7 +212,31 @@ app.post("/projects", async (req, res) => {
     }
 });
 
+// DELETE d'un projet par ID
+app.delete("/projects/:id", async (req, res) => {
+    try {
+        const deletedProject = await Project.findOneAndDelete({
+            id: req.params.id
+        });
 
+        if (!deletedProject) {
+            return res.status(404).json({
+                message: `Projet introuvable: ${req.params.id}`
+            });
+        }
+
+        res.status(200).json({
+            message: "Projet supprimé avec succès",
+            project: deletedProject
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            message: `Erreur lors de la suppression du projet: ${req.params.id}`,
+            error: error.message
+        });
+    }
+});
 
 
 
